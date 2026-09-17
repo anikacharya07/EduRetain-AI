@@ -1,4 +1,4 @@
-# 🎓 EduRetain AI: Student Retention Analytics & Early-Warning System
+#  EduRetain AI: Student Retention Analytics 
 
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-v1.3%2B-orange.svg)](https://scikit-learn.org/)

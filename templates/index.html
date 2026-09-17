@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduRetain AI</title>
+    <style>
+        :root {
+            color-scheme: light !important;
+        }
+
+        html, body {
+            color-scheme: light !important;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #111111;
+            background-color: #FFBF00;
+            background-image: linear-gradient(135deg, rgba(255, 191, 0, 0.88), rgba(255, 160, 0, 0.92)), url('/static/yellow_bg.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        h1, h3, h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: #111111;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            padding-top: 25px;
+            color: #0F172A;
+        }
+
+        h3 {
+            margin-top: 6px;
+            font-size: 1.5rem;
+            color: #382900;
+            font-weight: normal;
+        }
+        
+        .formmm {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            padding-bottom: 60px;
+        }
+        
+        .formin {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: fit-content;
+        }
+        
+        .elm {
+            margin: 12px 2px;
+        }
+
+        .result {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 20px 2px;
+            margin-top: 35px;
+        }
+        
+        .resulll h2 {
+            text-align: center;
+            color: #12892B;
+            text-decoration: underline;
+            margin: 8px 0;
+        }
+
+        .resulll h2.danger {
+            color: #C02626 !important;
+        }
+
+        .resulll h2.warning {
+            color: #C26100 !important;
+        }
+
+        .resulll h2.action-plan {
+            color: #1E3A8A !important;
+            text-decoration: none !important;
+            font-size: 1.55rem;
+            line-height: 1.4;
+        }
+
+        .resultput h2 {
+            justify-self: center;
+            color: #111111;
+            margin-bottom: 12px;
+        }
+
+        .graph {
+            margin: 16px 0;
+            align-self: center;
+        }
+
+        input, select {
+            background-color: #FFF3CD !important;
+            border: 2px solid #FFFFFF !important;
+            border-radius: 6px;
+            color: #000000 !important;
+            width: 140px;
+            padding: 8px 12px;
+            font-size: 1.45rem;
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            font-family: inherit;
+            outline: none;
+        }
+
+        select {
+            width: 290px;
+        }
+
+        p {
+            font-size: 1.35rem;
+            margin: 5px 0 0 0;
+            color: #2E2000;
+        }
+
+        label {
+            font-size: 1.65rem;
+            font-weight: bold;
+            color: #111111;
+        }
+
+        .elemsub {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .elemsub button {
+            background-color: #000000 !important;
+            border: 2px solid #000000 !important;
+            border-radius: 6px;
+            color: #FFFFFF !important;
+            width: 520px;
+            max-width: 100%;
+            height: 55px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.1s ease, color 0.1s ease;
+            cursor: pointer;
+            font-family: inherit;
+            user-select: none;
+            outline: none;
+            display: inline-block;
+        }
+
+        .elemsub button:hover {
+            background-color: #222222 !important;
+            color: #FFFFFF !important;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .elemsub button:hover:active,
+        .elemsub button:active,
+        .elemsub button:focus:active,
+        .elemsub button.is-clicking {
+            background-color: #FFBF00 !important;
+            color: #000000 !important;
+            border-color: #000000 !important;
+            box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+            transition: none !important;
+        }
+
+        .graph .ingraph {
+            border: 5px solid #000000;
+            border-radius: 10px;
+            max-width: 100%;
+            background-color: #FFFFFF;
+            box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.4);
+        }
+
+        .resel h3 {
+            font-size: 1.6rem;
+            margin-top: 25px;
+            color: #111111;
+        }
+
+        .xxx {
+            align-self: center;
+            justify-self: center;
+        }
+
+        .resultput {
+            align-self: center;
+            justify-self: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>EduRetain AI</h1>
+    <h3>Enter The Student Values Correctly</h3>
+
+    <div class="formmm">
+        <form method="post" action="/#results" class="formin" id="predictionForm">
+            <div class="elm">
+                <label for="age">Enter Age at Enrollment:</label><br>
+                <input type="number" name="age" id="age" value="{{ age if age is defined else 20 }}" required min="17" max="65"><br>
+                <p>Enter student's age when enrolling in university (e.g., 18 to 45)</p>
+            </div>
+
+            <div class="elm">
+                <label for="gender">Select Gender:</label><br>
+                <select name="gender" id="gender" required>
+                    <option value="0" {% if gender is defined and gender == 0 %}selected{% endif %}>Female (0)</option>
+                    <option value="1" {% if gender is defined and gender == 1 %}selected{% endif %}>Male (1)</option>
+                </select><br>
+                <p>Select Student Gender (0 for Female, 1 for Male)</p>
+            </div>
+
+            <div class="elm">
+                <label for="tuition">Tuition Fees Status (0 or 1):</label><br>
+                <select name="tuition" id="tuition" required>
+                    <option value="1" {% if tuition is not defined or tuition == 1 %}selected{% endif %}>1 - Up-to-Date (Paid)</option>
+                    <option value="0" {% if tuition is defined and tuition == 0 %}selected{% endif %}>0 - Overdue (In Arrears)</option>
+                </select><br>
+                <p>Enter 1 if student's tuition fees are paid and up-to-date, else 0 if overdue</p>
+            </div>
+
+            <div class="elm">
+                <label for="scholarship">Scholarship Holder (0 or 1):</label><br>
+                <select name="scholarship" id="scholarship" required>
+                    <option value="0" {% if scholarship is not defined or scholarship == 0 %}selected{% endif %}>0 - No Scholarship</option>
+                    <option value="1" {% if scholarship is defined and scholarship == 1 %}selected{% endif %}>1 - Scholarship Recipient</option>
+                </select><br>
+                <p>Enter 1 if student receives an academic/financial scholarship, else 0</p>
+            </div>
+
+            <div class="elm">
+                <label for="debtor">Declared Financial Debtor (0 or 1):</label><br>
+                <select name="debtor" id="debtor" required>
+                    <option value="0" {% if debtor is not defined or debtor == 0 %}selected{% endif %}>0 - No Unsettled Debt</option>
+                    <option value="1" {% if debtor is defined and debtor == 1 %}selected{% endif %}>1 - Declared Debtor</option>
+                </select><br>
+                <p>Enter 1 if student has outstanding institutional debts, else 0</p>
+            </div>
+
+            <div class="elm">
+                <label for="admission_grade">Admission Entrance Grade (0 to 200):</label><br>
+                <input type="number" step="0.1" name="admission_grade" id="admission_grade" value="{{ admission_grade if admission_grade is defined else 127.5 }}" required min="0" max="200"><br>
+                <p>Enter university entrance exam grade score (scale 0 to 200)</p>
+            </div>
+
+            <div class="elm">
+                <label for="enrolled_units">First Year Enrolled Units:</label><br>
+                <input type="number" name="enrolled_units" id="enrolled_units" value="{{ enrolled_units if enrolled_units is defined else 6 }}" required min="0" max="20"><br>
+                <p>Total number of curricular courses enrolled in First Year (0 to 20)</p>
+            </div>
+
+            <div class="elm">
+                <label for="approved_units">First Year Approved Units:</label><br>
+                <input type="number" name="approved_units" id="approved_units" value="{{ approved_units if approved_units is defined else 5 }}" required min="0" max="20"><br>
+                <p>Total number of curricular courses successfully passed in First Year (0 to 20)</p>
+            </div>
+
+            <div class="elm">
+                <label for="grade">First Year Average Grade (0 to 20):</label><br>
+                <input type="number" step="0.1" name="grade" id="grade" value="{{ grade if grade is defined else 13.2 }}" required min="0" max="20"><br>
+                <p>Average grade scored in First Year (European scale 0 to 20)</p>
+            </div>
+
+            <div class="elm elemsub">
+                <button type="submit" id="predictBtn">Predict Student Dropout Risk</button>
+            </div>
+
+            {% if predicted_risk is defined %}
+            <div id="results" class="result">
+                <div class="resel resultput">
+                    <h2>Prediction Results:</h2>
+                </div>
+                <div class="resel">
+                    <p>Input Age at Enrollment: {{ age }} years</p>
+                </div>
+                <div class="resel">
+                    <p>Tuition Fees Up-to-Date: {{ '1 - Yes (Paid Up-to-Date)' if tuition == 1 else '0 - No (Overdue In Arrears)' }}</p>
+                </div>
+                <div class="resel">
+                    <p>Scholarship Holder: {{ '1 - Yes (Scholarship Holder)' if scholarship == 1 else '0 - No Scholarship' }}</p>
+                </div>
+                <div class="resel">
+                    <p>Declared Financial Debtor: {{ '1 - Yes (Has Debt)' if debtor == 1 else '0 - No (Clear)' }}</p>
+                </div>
+                <div class="resel">
+                    <p>First Year Course Velocity: {{ approved_units }} Approved / {{ enrolled_units }} Enrolled</p>
+                </div>
+                <div class="resel">
+                    <p>First Year Average Grade: {{ grade }} / 20</p>
+                </div>
+                <div class="resel resulll">
+                    <h2 class="{{ 'danger' if predicted_risk >= 65 else ('warning' if predicted_risk >= 35 else '') }}">Predicted Student Dropout Risk: {{ predicted_risk }}%</h2>
+                </div>
+                <div class="resel resulll">
+                    <h2 class="{{ 'danger' if predicted_risk >= 65 else ('warning' if predicted_risk >= 35 else '') }}">Retention Status: {{ risk_status }}</h2>
+                </div>
+                <div class="resel resulll">
+                    <h2 class="action-plan">Recommended Action: {{ intervention_action }}</h2>
+                </div>
+
+                <div class="resel xxx">
+                    <h3>Matplotlib Graph Of Collected And Predicted Data</h3>
+                </div>
+                <div class="resel graph">
+                    <img class="ingraph" src="data:image/png;base64, {{ plot }}" alt="Prediction Plot">
+                </div>
+            </div>
+            {% endif %}
+
+        </form>
+    </div>
+
+    <script>
+        const predictBtn = document.getElementById('predictBtn');
+        const form = document.getElementById('predictionForm');
+
+        if (predictBtn) {
+            function setYellowActive() {
+                predictBtn.classList.add('is-clicking');
+                predictBtn.style.setProperty('background-color', '#FFBF00', 'important');
+                predictBtn.style.setProperty('color', '#000000', 'important');
+                predictBtn.style.setProperty('border-color', '#000000', 'important');
+            }
+
+            predictBtn.addEventListener('mousedown', setYellowActive);
+            predictBtn.addEventListener('touchstart', setYellowActive, { passive: true });
+
+            if (form) {
+                form.addEventListener('submit', function() {
+                    setYellowActive();
+                });
+            }
+        }
+
+        const resultsEl = document.getElementById('results');
+        if (resultsEl) {
+            resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+
+</body>
+</html>
